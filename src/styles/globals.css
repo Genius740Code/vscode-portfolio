@@ -1,0 +1,105 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 255, 255, 255;
+  --background-start-rgb: 30, 30, 30;
+  --background-end-rgb: 30, 30, 30;
+}
+
+/* Optimize font loading */
+@font-face {
+  font-family: 'Consolas';
+  font-display: swap;
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: rgb(var(--background-start-rgb));
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Optimize component styles with better specificity */
+@layer components {
+  .vscode-sidebar-item {
+    @apply cursor-pointer hover:bg-vscode-sidebar-item text-vscode-inactive transition-colors duration-150;
+  }
+  
+  .vscode-sidebar-item-active {
+    @apply cursor-pointer bg-vscode-highlight text-white;
+  }
+  
+  .vscode-tab {
+    @apply flex items-center px-3 py-1 text-sm border-t-2 border-transparent hover:bg-vscode-sidebar/80 transition-colors duration-150;
+  }
+  
+  .vscode-tab-active {
+    @apply bg-vscode-bg text-white border-t-2 border-t-vscode-active;
+  }
+  
+  .terminal-prompt::before {
+    content: '>';
+    @apply text-vscode-active mr-2;
+  }
+  
+  .code-line {
+    @apply font-mono text-sm leading-6;
+  }
+  
+  /* Optimize syntax highlighting classes */
+  .code-comment { @apply text-vscode-comment; }
+  .code-keyword { @apply text-vscode-keyword; }
+  .code-string { @apply text-vscode-string; }
+  .code-function { @apply text-vscode-function; }
+  .code-variable { @apply text-vscode-variable; }
+}
+
+/* Optimize token styles with better performance */
+.token-keyword { @apply text-vscode-blue; }
+.token-string { @apply text-vscode-orange; }
+.token-comment { @apply text-vscode-green; }
+.token-function { @apply text-yellow-300; }
+.token-variable { @apply text-blue-300; }
+.token-type { @apply text-teal-300; }
+.token-operator { @apply text-purple-300; }
+.token-punctuation { @apply text-gray-400; }
+
+/* Optimize scrollbar with better performance */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+  background: transparent;
+}
+
+::-webkit-scrollbar-track {
+  background: #1e1e1e;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #424242;
+  border-radius: 5px;
+  transition: background-color 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #4f4f4f;
+}
+
+/* Optimize tab styles */
+.tab-active {
+  @apply bg-vscode-bg text-white border-t-2 border-t-vscode-active;
+}
+
+.tab-inactive {
+  @apply bg-vscode-sidebar text-vscode-inactive hover:bg-vscode-sidebar-item transition-colors duration-150;
+}
+
+/* Add will-change for better performance on animations */
+.vscode-sidebar-item,
+.vscode-tab,
+.tab-inactive {
+  will-change: background-color;
+} 

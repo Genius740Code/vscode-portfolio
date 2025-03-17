@@ -1,0 +1,359 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --vscode-bg: #1e1e1e;
+  --vscode-sidebar: #252526;
+  --vscode-sidebar-item: #37373d;
+  --vscode-text: #cccccc;
+  --vscode-inactive: #858585;
+  --vscode-active: #0078d4;
+  --vscode-border: #3d3d3d;
+  --vscode-menubar: #333333;
+  --vscode-menubar-item: #3e3e3e;
+  --vscode-statusbar: #007acc;
+  --vscode-statusbar-text: #ffffff;
+  --vscode-statusbar-item: #0063a2;
+  --vscode-terminal: #1e1e1e;
+  --vscode-blue: #4fc1ff;
+  --vscode-green: #4ec9b0;
+  --vscode-purple: #c586c0;
+  --vscode-orange: #ce9178;
+  --vscode-pink: #f06595;
+}
+
+.theme-dark {
+  --vscode-bg: #1e1e1e;
+  --vscode-sidebar: #252526;
+  --vscode-sidebar-item: #37373d;
+  --vscode-text: #cccccc;
+  --vscode-inactive: #858585;
+  --vscode-active: #0078d4;
+  --vscode-border: #3d3d3d;
+  --vscode-menubar: #333333;
+  --vscode-menubar-item: #3e3e3e;
+  --vscode-statusbar: #007acc;
+  --vscode-statusbar-text: #ffffff;
+  --vscode-statusbar-item: #0063a2;
+  --vscode-terminal: #1e1e1e;
+  --vscode-blue: #4fc1ff;
+  --vscode-green: #4ec9b0;
+  --vscode-purple: #c586c0;
+  --vscode-orange: #ce9178;
+  --vscode-pink: #f06595;
+}
+
+.theme-light {
+  --vscode-bg: #ffffff;
+  --vscode-sidebar: #f3f3f3;
+  --vscode-sidebar-item: #e8e8e8;
+  --vscode-text: #333333;
+  --vscode-inactive: #888888;
+  --vscode-active: #0078d4;
+  --vscode-border: #dfdfdf;
+  --vscode-menubar: #f3f3f3;
+  --vscode-menubar-item: #e8e8e8;
+  --vscode-statusbar: #0078d4;
+  --vscode-statusbar-text: #ffffff;
+  --vscode-statusbar-item: #0063a2;
+  --vscode-terminal: #ffffff;
+  --vscode-blue: #0078d4;
+  --vscode-green: #008040;
+  --vscode-purple: #8e0ba2;
+  --vscode-orange: #ca5010;
+  --vscode-pink: #d63384;
+}
+
+.theme-high-contrast {
+  --vscode-bg: #000000;
+  --vscode-sidebar: #000000;
+  --vscode-sidebar-item: #202020;
+  --vscode-text: #ffffff;
+  --vscode-inactive: #a0a0a0;
+  --vscode-active: #0098ff;
+  --vscode-border: #6b6b6b;
+  --vscode-menubar: #000000;
+  --vscode-menubar-item: #202020;
+  --vscode-statusbar: #0078d4;
+  --vscode-statusbar-text: #ffffff;
+  --vscode-statusbar-item: #0063a2;
+  --vscode-terminal: #000000;
+  --vscode-blue: #00a6ff;
+  --vscode-green: #00c060;
+  --vscode-purple: #d78aff;
+  --vscode-orange: #ff8248;
+  --vscode-pink: #ff7fb6;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--vscode-bg);
+  color: var(--vscode-text);
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+/* VSCode-like scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--vscode-sidebar);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--vscode-sidebar-item);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--vscode-active);
+}
+
+/* Code syntax highlighting */
+code {
+  font-family: 'Fira Code', 'Consolas', monospace;
+}
+
+/* VSCode-like selection */
+::selection {
+  background: var(--vscode-active);
+  color: white;
+}
+
+/* VSCode-like focus outline */
+:focus {
+  outline: 2px solid var(--vscode-active);
+  outline-offset: 2px;
+}
+
+/* VSCode-like transitions */
+.transition-colors {
+  transition: color 0.2s ease-in-out;
+}
+
+/* VSCode-like hover effects */
+.hover\:bg-vscode-sidebar:hover {
+  background-color: var(--vscode-sidebar);
+}
+
+.hover\:bg-vscode-sidebar\/80:hover {
+  background-color: rgba(37, 37, 38, 0.8);
+}
+
+/* VSCode-like borders */
+.border-vscode-border {
+  border-color: var(--vscode-border);
+}
+
+.border-vscode-bg {
+  border-color: var(--vscode-bg);
+}
+
+/* VSCode-like text colors */
+.text-vscode-text {
+  color: var(--vscode-text);
+}
+
+.text-vscode-inactive {
+  color: var(--vscode-inactive);
+}
+
+.text-vscode-active {
+  color: var(--vscode-active);
+}
+
+.text-vscode-blue {
+  color: var(--vscode-blue);
+}
+
+.text-vscode-green {
+  color: var(--vscode-green);
+}
+
+.text-vscode-purple {
+  color: var(--vscode-purple);
+}
+
+.text-vscode-orange {
+  color: var(--vscode-orange);
+}
+
+.text-vscode-pink {
+  color: var(--vscode-pink);
+}
+
+/* VSCode-like backgrounds */
+.bg-vscode-bg {
+  background-color: var(--vscode-bg);
+}
+
+.bg-vscode-sidebar {
+  background-color: var(--vscode-sidebar);
+}
+
+.bg-vscode-sidebar-item {
+  background-color: var(--vscode-sidebar-item);
+}
+
+/* VSCode-like sidebar items */
+.vscode-sidebar-item {
+  cursor: pointer;
+}
+
+.vscode-sidebar-item:hover {
+  background-color: var(--vscode-sidebar-item);
+}
+
+.vscode-sidebar-item-active {
+  background-color: var(--vscode-active);
+  color: white;
+}
+
+/* VSCode-like transitions */
+.transition-colors {
+  transition: color 0.2s ease-in-out;
+}
+
+/* VSCode-like hover effects */
+.hover\:bg-vscode-sidebar:hover {
+  background-color: var(--vscode-sidebar);
+}
+
+.hover\:bg-vscode-sidebar\/80:hover {
+  background-color: rgba(37, 37, 38, 0.8);
+}
+
+/* VSCode-like borders */
+.border-vscode-border {
+  border-color: var(--vscode-border);
+}
+
+.bg-vscode-active {
+  background-color: var(--vscode-active);
+}
+
+.bg-vscode-terminal {
+  background-color: var(--vscode-terminal);
+}
+
+.bg-vscode-menubar {
+  background-color: var(--vscode-menubar);
+}
+
+.bg-vscode-menubar-item {
+  background-color: var(--vscode-menubar-item);
+}
+
+.bg-vscode-statusbar {
+  background-color: var(--vscode-statusbar);
+}
+
+.text-vscode-statusbar-text {
+  color: var(--vscode-statusbar-text);
+}
+
+.bg-vscode-statusbar-item {
+  background-color: var(--vscode-statusbar-item);
+}
+
+/* VSCode-like transitions */
+.transition-colors {
+  transition: color 0.2s ease-in-out;
+}
+
+/* VSCode-like hover effects */
+.hover\:bg-vscode-sidebar:hover {
+  background-color: var(--vscode-sidebar);
+}
+
+.hover\:bg-vscode-sidebar\/80:hover {
+  background-color: rgba(37, 37, 38, 0.8);
+}
+
+/* VSCode-like borders */
+.border-vscode-border {
+  border-color: var(--vscode-border);
+}
+
+/* VSCode-like text colors */
+.text-vscode-text {
+  color: var(--vscode-text);
+}
+
+.text-vscode-inactive {
+  color: var(--vscode-inactive);
+}
+
+.text-vscode-active {
+  color: var(--vscode-active);
+}
+
+.text-vscode-blue {
+  color: var(--vscode-blue);
+}
+
+.text-vscode-green {
+  color: var(--vscode-green);
+}
+
+.text-vscode-purple {
+  color: var(--vscode-purple);
+}
+
+.text-vscode-orange {
+  color: var(--vscode-orange);
+}
+
+.text-vscode-pink {
+  color: var(--vscode-pink);
+}
+
+/* VSCode-like backgrounds */
+.bg-vscode-bg {
+  background-color: var(--vscode-bg);
+}
+
+.bg-vscode-sidebar {
+  background-color: var(--vscode-sidebar);
+}
+
+/* VSCode-like sidebar items */
+.vscode-sidebar-item {
+  cursor: pointer;
+}
+
+.vscode-sidebar-item:hover {
+  background-color: var(--vscode-sidebar-item);
+}
+
+.vscode-sidebar-item-active {
+  background-color: var(--vscode-active);
+  color: white;
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Make sure the folder toggle chevron is visible on hover */
+.group:hover .text-vscode-inactive {
+  color: var(--vscode-text);
+}
+
+/* Fix for terminal and editor content */
+.overflow-auto {
+  overflow: auto !important;
+} 
