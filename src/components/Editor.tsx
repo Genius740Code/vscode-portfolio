@@ -1,5 +1,6 @@
-import React, { useMemo, memo } from 'react';
-import { FaUser, FaCode, FaPalette, FaHammer, FaEnvelope, FaJs, FaReact, FaHtml5, FaCss3, FaRegFileCode } from 'react-icons/fa';
+import React, { useMemo, memo, FC, useEffect, useState } from 'react';
+import { FaUser, FaCode, FaPalette, FaHammer, FaEnvelope, FaJs, FaReact, FaHtml5, FaCss3, FaRegFileCode, FaExternalLinkAlt } from 'react-icons/fa';
+import { portfolioConfig } from '@/config/portfolio';
 
 interface EditorProps {
   activeFile: string;
@@ -102,39 +103,56 @@ const AboutContent = memo(() => (
   </div>
 ));
 
-const SkillsContent = () => (
-  <div className="p-6 pl-0">
-    <h1 className="text-2xl font-bold mb-4 pl-2">Skills</h1>
-    
-    <div className="code-line mb-2"><span className="text-purple-400">const</span> <span className="text-yellow-300">skills</span> = {'{'}</div>
-    
-    <div className="code-line ml-4 mb-1"><span className="text-yellow-300">languages</span>: [</div>
-    <div className="code-line ml-8 mb-1"><span className="text-green-400">"JavaScript"</span>, <span className="text-green-400">"TypeScript"</span>, <span className="text-green-400">"HTML"</span>, <span className="text-green-400">"CSS"</span>, <span className="text-green-400">"Python"</span></div>
-    <div className="code-line ml-4 mb-1">],</div>
-    
-    <div className="code-line ml-4 mb-1"><span className="text-yellow-300">frameworks</span>: [</div>
-    <div className="code-line ml-8 mb-1"><span className="text-green-400">"React"</span>, <span className="text-green-400">"Next.js"</span>, <span className="text-green-400">"Express"</span>, <span className="text-green-400">"Node.js"</span></div>
-    <div className="code-line ml-4 mb-1">],</div>
-    
-    <div className="code-line ml-4 mb-1"><span className="text-yellow-300">tools</span>: [</div>
-    <div className="code-line ml-8 mb-1"><span className="text-green-400">"Git"</span>, <span className="text-green-400">"Webpack"</span>, <span className="text-green-400">"Docker"</span>, <span className="text-green-400">"VS Code"</span></div>
-    <div className="code-line ml-4 mb-1">],</div>
-    
-    <div className="code-line ml-4 mb-1"><span className="text-yellow-300">databases</span>: [</div>
-    <div className="code-line ml-8 mb-1"><span className="text-green-400">"MongoDB"</span>, <span className="text-green-400">"PostgreSQL"</span>, <span className="text-green-400">"MySQL"</span></div>
-    <div className="code-line ml-4 mb-1">],</div>
-    
-    <div className="code-line ml-4 mb-1"><span className="text-blue-400">getLevelOfExpertise</span>: (<span className="text-yellow-300">skill</span>) ={'>'}  {'{'}</div>
-    <div className="code-line ml-8 mb-1"><span className="text-purple-400">switch</span>(<span className="text-yellow-300">skill</span>) {'{'}</div>
-    <div className="code-line ml-12 mb-1"><span className="text-purple-400">case</span> <span className="text-green-400">"React"</span>: <span className="text-purple-400">return</span> <span className="text-green-400">"Advanced"</span>;</div>
-    <div className="code-line ml-12 mb-1"><span className="text-purple-400">case</span> <span className="text-green-400">"TypeScript"</span>: <span className="text-purple-400">return</span> <span className="text-green-400">"Intermediate"</span>;</div>
-    <div className="code-line ml-12 mb-1"><span className="text-purple-400">default</span>: <span className="text-purple-400">return</span> <span className="text-green-400">"Learning"</span>;</div>
-    <div className="code-line ml-8 mb-1">{'}'}</div>
-    <div className="code-line ml-4 mb-1">{'}'}</div>
-    
-    <div className="code-line">{'}'}</div>
-  </div>
-);
+const SkillsContent = () => {
+  // Using the updated skills config with links
+  const { skills } = portfolioConfig;
+  
+  return (
+    <div className="p-6 pl-0">
+      <h1 className="text-2xl font-bold mb-4 pl-2">Skills</h1>
+      
+      <div className="code-line mb-4"><span className="text-purple-400">const</span> <span className="text-yellow-300">skills</span> = {'{'}</div>
+      
+      {skills.map((category, idx) => (
+        <React.Fragment key={idx}>
+          <div className="code-line ml-4 mb-1">
+            <span className="text-yellow-300">{category.category.toLowerCase().replace(/\s+/g, '_')}</span>: [
+          </div>
+          <div className="code-line ml-8 mb-1 flex flex-wrap gap-2">
+            {category.items.map((skill, skillIdx) => (
+              <span key={skillIdx} className="group relative inline-block">
+                <span className="text-green-400">{`"${skill.name}"`}</span>
+                {skill.url && (
+                  <a 
+                    href={skill.url} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="inline-block ml-1 text-blue-400 opacity-0 group-hover:opacity-100 transition-opacity"
+                  >
+                    <FaExternalLinkAlt size={10} />
+                  </a>
+                )}
+                {skillIdx < category.items.length - 1 && <span className="mr-1">,</span>}
+              </span>
+            ))}
+          </div>
+          <div className="code-line ml-4 mb-2">],</div>
+        </React.Fragment>
+      ))}
+      
+      <div className="code-line ml-4 mb-1"><span className="text-blue-400">getExpertise</span>: <span className="text-purple-400">function</span>(<span className="text-yellow-300">skill</span>) {'{'}</div>
+      <div className="code-line ml-8 mb-1"><span className="text-purple-400">const</span> <span className="text-yellow-300">expertiseLevels</span> = {'{'}
+        <span className="text-green-400">"React"</span>: <span className="text-orange-400">90</span>,
+        <span className="text-green-400">"TypeScript"</span>: <span className="text-orange-400">85</span>,
+        <span className="text-green-400">"Node.js"</span>: <span className="text-orange-400">80</span>
+      {'}'}</div>
+      <div className="code-line ml-8 mb-1"><span className="text-purple-400">return</span> <span className="text-yellow-300">expertiseLevels</span>[<span className="text-yellow-300">skill</span>] || <span className="text-orange-400">70</span>;</div>
+      <div className="code-line ml-4 mb-1">{'}'}</div>
+      
+      <div className="code-line mb-2">{'}'}</div>
+    </div>
+  );
+};
 
 const ProjectsContent = () => (
   <div className="p-6 pl-0">
@@ -219,70 +237,70 @@ const ContactContent = () => (
   </div>
 );
 
-const Editor: React.FC<EditorProps> = memo(({ activeFile, theme = 'dark', startingLineNumber = 1 }) => {
-  const content = useMemo(() => {
-    switch (activeFile) {
-      case 'about.tsx':
-        return <AboutContent />;
-      case 'skills.tsx':
-        return <SkillsContent />;
-      case 'projects.tsx':
-        return <ProjectsContent />;
-      case 'experience.tsx':
-        return <ExperienceContent />;
-      case 'contact.tsx':
-        return <ContactContent />;
-      default:
-        return <div className="text-vscode-text">Select a file to view its contents</div>;
+const Editor: FC<EditorProps> = ({ activeFile, theme = 'dark', startingLineNumber = 1 }) => {
+  const [fontSize, setFontSize] = useState(14);
+  
+  // Load the saved font size from localStorage
+  useEffect(() => {
+    const savedFontSize = localStorage.getItem('fontSize');
+    if (savedFontSize) {
+      setFontSize(parseInt(savedFontSize));
     }
+  }, []);
+  
+  // Recheck font size when localStorage changes
+  useEffect(() => {
+    const handleStorageChange = () => {
+      const savedFontSize = localStorage.getItem('fontSize');
+      if (savedFontSize) {
+        setFontSize(parseInt(savedFontSize));
+      }
+    };
+    
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
+  }, []);
+  
+  const renderContent = useMemo(() => {
+    if (activeFile === 'about.tsx') {
+      return <AboutContent />;
+    } else if (activeFile === 'skills.tsx') {
+      return <SkillsContent />;
+    } else if (activeFile === 'projects.tsx') {
+      return <ProjectsContent />;
+    } else if (activeFile === 'experience.tsx') {
+      return <ExperienceContent />;
+    } else if (activeFile === 'contact.tsx') {
+      return <ContactContent />;
+    }
+    return <div className="p-4 text-vscode-text">Select a file to view</div>;
   }, [activeFile]);
 
-  const lineCount = useMemo(() => {
-    switch (activeFile) {
-      case 'about.tsx': return 8;
-      case 'skills.tsx': return 23;
-      case 'projects.tsx': return 21;
-      case 'experience.tsx': return 24;
-      case 'contact.tsx': return 18;
-      default: return 1;
-    }
-  }, [activeFile]);
-
-  const lineNumbers = useMemo(() => 
-    Array.from({ length: lineCount }, (_, i) => i + startingLineNumber),
-    [lineCount, startingLineNumber]
-  );
-
-  if (!activeFile) {
-    return (
-      <div className="flex-1 h-full flex items-center justify-center text-vscode-inactive">
-        <div className="text-center">
-          <h2 className="text-xl mb-2">Welcome to VS Code Portfolio</h2>
-          <p className="text-sm">Select a file from the Explorer to begin</p>
-        </div>
-      </div>
-    );
-  }
+  const lineNumbers = useMemo(() => {
+    const count = 50; // Arbitrary number of lines for the editor view
+    return Array.from({ length: count }, (_, i) => i + startingLineNumber);
+  }, [startingLineNumber]);
 
   return (
-    <div className="flex h-full bg-vscode-bg">
-      <div className="flex-1 overflow-auto">
-        <div className="flex">
-          {/* Line Numbers Column */}
-          <div className="bg-[#1e1e1e] text-gray-500 select-none border-r border-gray-800 pt-6 pb-8 font-mono text-sm hidden sm:block">
-            {lineNumbers.map(num => (
-              <div key={num} className="text-right pr-2 w-12 h-6 leading-6">{num}</div>
-            ))}
-          </div>
-
-          {/* Content Area */}
-          <div className="flex-1 pt-6 pb-8 font-mono text-sm px-4 sm:px-6">
-            {content}
-          </div>
+    <div className="h-full overflow-auto bg-vscode-bg text-vscode-text">
+      <div className="flex">
+        <div 
+          className="w-10 flex-shrink-0 select-none bg-vscode-editor-bg text-vscode-line-numbers text-right pr-2 pt-6"
+          style={{ fontSize: `${fontSize}px` }}
+        >
+          {lineNumbers.map(num => (
+            <div key={num} className="h-6 leading-6">{num}</div>
+          ))}
+        </div>
+        <div 
+          className="flex-1 pt-6 font-mono overflow-x-auto"
+          style={{ fontSize: `${fontSize}px` }}
+        >
+          {renderContent}
         </div>
       </div>
     </div>
   );
-});
+};
 
 export default Editor; 

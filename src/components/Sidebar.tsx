@@ -190,6 +190,7 @@ const Sidebar: React.FC<SidebarProps> = React.memo(({
   const [startX, setStartX] = useState(0);
   const [startWidth, setStartWidth] = useState(0);
   const [width, setWidth] = useState(250);
+  const [fontSize, setFontSize] = useState(14);
   const sidebarRef = useRef<HTMLDivElement>(null);
   const MIN_WIDTH = 200;
   const MAX_WIDTH = 400;
@@ -225,6 +226,13 @@ const Sidebar: React.FC<SidebarProps> = React.memo(({
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme') || 'dark';
     setSelectedTheme(savedTheme);
+    
+    // Load saved font size
+    const savedFontSize = localStorage.getItem('fontSize');
+    if (savedFontSize) {
+      setFontSize(parseInt(savedFontSize));
+      document.documentElement.style.fontSize = `${savedFontSize}px`;
+    }
   }, []);
   
   const handleThemeChange = (newTheme: string) => {
@@ -244,6 +252,12 @@ const Sidebar: React.FC<SidebarProps> = React.memo(({
     // Save to localStorage
     localStorage.setItem('theme', newTheme);
   };
+  
+  const handleFontSizeChange = (newSize: number) => {
+    setFontSize(newSize);
+    document.documentElement.style.fontSize = `${newSize}px`;
+    localStorage.setItem('fontSize', newSize.toString());
+  };
 
   const handleDragStart = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -251,32 +265,45 @@ const Sidebar: React.FC<SidebarProps> = React.memo(({
     setStartX(e.clientX);
     setStartWidth(width);
     
-    // Add event listeners to document
+    // Add event listeners
     document.addEventListener('mousemove', handleDrag);
     document.addEventListener('mouseup', handleDragEnd);
-  };
-
-  const handleDrag = (e: MouseEvent) => {
-    if (!isDragging) return;
     
-    const deltaX = e.clientX - startX;
-    const newWidth = Math.max(MIN_WIDTH, Math.min(MAX_WIDTH, startWidth + deltaX));
-    setWidth(newWidth);
+    // Add a class to indicate dragging to change cursor globally
+    document.body.classList.add('sidebar-resizing');
   };
 
-  const handleDragEnd = () => {
+  const handleDrag = useCallback((e: MouseEvent) => {
+    if (!isDragging) return;
+    const newWidth = Math.max(
+      MIN_WIDTH,
+      Math.min(MAX_WIDTH, startWidth + e.clientX - startX)
+    );
+    setWidth(newWidth);
+  }, [isDragging, startWidth, startX]);
+
+  const handleDragEnd = useCallback(() => {
     setIsDragging(false);
     document.removeEventListener('mousemove', handleDrag);
     document.removeEventListener('mouseup', handleDragEnd);
-  };
+    document.body.classList.remove('sidebar-resizing');
+    
+    // Save sidebar width to localStorage for persistence
+    localStorage.setItem('sidebarWidth', width.toString());
+  }, [handleDrag, width]);
 
-  // Cleanup event listeners on unmount
+  // Load saved width on component mount
   useEffect(() => {
+    const savedWidth = localStorage.getItem('sidebarWidth');
+    if (savedWidth) {
+      setWidth(Math.max(MIN_WIDTH, Math.min(MAX_WIDTH, parseInt(savedWidth))));
+    }
+    
     return () => {
       document.removeEventListener('mousemove', handleDrag);
       document.removeEventListener('mouseup', handleDragEnd);
     };
-  }, []);
+  }, [handleDrag, handleDragEnd]);
 
   const renderExplorerView = () => (
     <div 
@@ -387,67 +414,74 @@ const Sidebar: React.FC<SidebarProps> = React.memo(({
   );
 
   const renderSettingsView = () => {
+    const themes = [
+      { id: 'dark', name: 'VS Code Dark' },
+      { id: 'light', name: 'VS Code Light' },
+      { id: 'github-dark', name: 'GitHub Dark' },
+      { id: 'github-light', name: 'GitHub Light' }
+    ];
+    
     return (
-      <div className="w-full sm:w-64 bg-vscode-sidebar border-r border-vscode-border overflow-y-auto">
-        <div className="p-2 text-xs text-vscode-inactive">
-          <h3 className="font-semibold mb-2">SETTINGS</h3>
-          <div className="space-y-3">
-            <div className="p-2 border-b border-vscode-border">
-              <div className="font-medium mb-1 text-vscode-active">Theme</div>
-              <select 
-                className="w-full p-1 bg-vscode-bg border border-vscode-border rounded text-vscode-text"
-                value={selectedTheme}
-                onChange={(e) => {
-                  const newTheme = e.target.value;
-                  handleThemeChange(newTheme);
-                }}
+      <div className="space-y-6">
+        <h2 className="text-xl font-semibold">Settings</h2>
+        
+        <div className="space-y-4">
+          <div>
+            <h3 className="text-sm font-semibold mb-2">Theme</h3>
+            <div className="space-y-2">
+              {themes.map(themeOption => (
+                <label 
+                  key={themeOption.id}
+                  className="flex items-center space-x-2 text-sm cursor-pointer"
+                >
+                  <input 
+                    type="radio" 
+                    checked={selectedTheme === themeOption.id}
+                    onChange={() => handleThemeChange(themeOption.id)}
+                    className="form-radio text-vscode-active"
+                  />
+                  <span>{themeOption.name}</span>
+                </label>
+              ))}
+            </div>
+          </div>
+          
+          <div>
+            <h3 className="text-sm font-semibold mb-2">Font Size</h3>
+            <div className="flex items-center space-x-2">
+              <button 
+                onClick={() => handleFontSizeChange(Math.max(12, fontSize - 1))}
+                className="w-6 h-6 flex items-center justify-center bg-vscode-button hover:bg-vscode-button-hover text-white rounded"
+                disabled={fontSize <= 12}
               >
-                <option value="dark">Dark (Default)</option>
-                <option value="light">Light</option>
-                <option value="high-contrast">High Contrast</option>
-              </select>
-            </div>
-            
-            <div className="p-2 border-b border-vscode-border">
-              <div className="font-medium mb-1 text-vscode-active">Font Size</div>
-              <div className="flex items-center space-x-2">
-                <button className="px-2 py-1 bg-vscode-bg text-vscode-text rounded hover:bg-vscode-sidebar-item">-</button>
-                <span>14px</span>
-                <button className="px-2 py-1 bg-vscode-bg text-vscode-text rounded hover:bg-vscode-sidebar-item">+</button>
-              </div>
-            </div>
-            
-            <div className="p-2 border-b border-vscode-border">
-              <div className="font-medium mb-1 text-vscode-active">Terminal</div>
-              <label className="flex items-center cursor-pointer">
-                <input type="checkbox" className="form-checkbox bg-vscode-bg border-vscode-border" defaultChecked />
-                <span className="ml-2">Show on Startup</span>
-              </label>
-            </div>
-            
-            <div className="p-2 border-b border-vscode-border">
-              <div className="font-medium mb-1 text-vscode-active">Editor</div>
-              <div className="space-y-2">
-                <label className="flex items-center cursor-pointer">
-                  <input type="checkbox" className="form-checkbox bg-vscode-bg border-vscode-border" defaultChecked />
-                  <span className="ml-2">Word Wrap</span>
-                </label>
-                <label className="flex items-center cursor-pointer">
-                  <input type="checkbox" className="form-checkbox bg-vscode-bg border-vscode-border" defaultChecked />
-                  <span className="ml-2">Line Numbers</span>
-                </label>
-                <label className="flex items-center cursor-pointer">
-                  <input type="checkbox" className="form-checkbox bg-vscode-bg border-vscode-border" defaultChecked />
-                  <span className="ml-2">Minimap</span>
-                </label>
-              </div>
-            </div>
-            
-            <div className="p-2">
-              <button className="w-full py-1 bg-vscode-active text-white rounded hover:bg-opacity-90">
-                Reset to Defaults
+                -
+              </button>
+              <span className="text-sm min-w-[30px] text-center">{fontSize}px</span>
+              <button 
+                onClick={() => handleFontSizeChange(Math.min(20, fontSize + 1))}
+                className="w-6 h-6 flex items-center justify-center bg-vscode-button hover:bg-vscode-button-hover text-white rounded"
+                disabled={fontSize >= 20}
+              >
+                +
               </button>
             </div>
+            <div className="mt-2">
+              <input 
+                type="range" 
+                min="12" 
+                max="20" 
+                value={fontSize} 
+                onChange={(e) => handleFontSizeChange(parseInt(e.target.value))}
+                className="w-full"
+              />
+            </div>
+          </div>
+          
+          <div>
+            <h3 className="text-sm font-semibold mb-2">About</h3>
+            <p className="text-xs text-vscode-inactive">
+              VS Code Portfolio v1.0.0
+            </p>
           </div>
         </div>
       </div>
@@ -473,11 +507,25 @@ const Sidebar: React.FC<SidebarProps> = React.memo(({
 
   return (
     <div className="flex h-full">
-      <div className="w-12 bg-vscode-sidebar flex flex-col items-center">
+      <div className="bg-vscode-sidebar-bg text-vscode-sidebar-text h-full">
         {sidebarIcons}
       </div>
-      
-      {renderActiveView()}
+      <div 
+        ref={sidebarRef}
+        className="bg-vscode-sidebar-panel-bg h-full overflow-y-auto"
+        style={{ width: `${width}px` }}
+      >
+        <div className="p-4">
+          {renderActiveView()}
+        </div>
+      </div>
+      <div
+        className="w-1 h-full cursor-ew-resize hover:bg-vscode-active relative group"
+        onMouseDown={handleDragStart}
+      >
+        <div className="absolute w-1 h-full bg-transparent hover:bg-vscode-active group-hover:w-3 group-hover:-left-1 transition-all duration-100"></div>
+        {isDragging && <div className="fixed inset-0 z-50 cursor-ew-resize" />}
+      </div>
     </div>
   );
 });

@@ -1,25 +1,50 @@
-# VSCode Portfolio
+# VS Code Portfolio 🚀
 
-A visually appealing portfolio website styled like Visual Studio Code. This project showcases your skills, projects, and experience in a unique and interactive way that resembles the popular code editor.
+A modern portfolio website that mimics the VS Code interface, built with Next.js, TypeScript, and Tailwind CSS. Perfect for developers who want to showcase their work in a familiar IDE-like environment.
 
-## Features
+![VS Code Portfolio](vscode.png)
 
-- 🎨 VSCode-themed UI with accurate colors and styling
-- 📁 Interactive sidebar with file explorer
-- 📑 Tabbed interface for different sections
-- 💻 Terminal with interactive commands
-- 📊 Status bar with social links
-- 📱 Responsive design
+## ⚠️ Important Note
 
-## Technologies Used
+**First-time compilation may take up to 3 seconds** due to the dynamic content loading and VS Code theme implementation. Subsequent loads will be much faster.
 
-- Next.js
-- React
-- TypeScript
-- TailwindCSS
-- React Icons
+## ✨ Features
 
-## Getting Started
+- 🎨 VS Code-like interface with multiple theme support
+- 📱 Fully responsive design
+- ⚡ Fast page loads with Next.js
+- 🎯 TypeScript for type safety
+- 🎨 Tailwind CSS for styling
+- 📦 Easy content management through config file
+- 💻 Interactive file explorer with resizable sidebar
+- 📝 Syntax highlighting
+- 🔍 SEO optimized
+- ⚙️ Customizable font size and themes
+- 🔗 Clickable skill links
+
+## 📸 Screenshots
+
+### Dark Theme
+![Dark Theme](/public/dark-theme.png)
+
+### Light Theme
+![Light Theme](/public/light-theme.png)
+
+### Skills with Links
+![Skills with Links](/public/skills.png)
+
+### Customizable Settings
+![Settings](/public/settings.png)
+
+## 🛠️ Technologies Used
+
+- [Next.js](https://nextjs.org/) - React framework
+- [React](https://reactjs.org/) - UI library
+- [TypeScript](https://www.typescriptlang.org/) - Type safety
+- [TailwindCSS](https://tailwindcss.com/) - Styling
+- [React Icons](https://react-icons.github.io/react-icons/) - Icons
+
+## 🚀 Getting Started
 
 ### Prerequisites
 
@@ -30,7 +55,7 @@ A visually appealing portfolio website styled like Visual Studio Code. This proj
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/vscode-portfolio.git
+git clone https://github.com/Genius740Code/vscode-portfolio.git
 cd vscode-portfolio
 ```
 
@@ -41,25 +66,35 @@ npm install
 yarn install
 ```
 
-3. Run the development server:
+3. Edit your portfolio content in `src/config/portfolio.ts`
+
+4. Run the development server:
 ```bash
 npm run dev
 # or
 yarn dev
 ```
 
-4. Open [http://localhost:3000](http://localhost:3000) in your browser to see the result.
+5. Open [http://localhost:3000](http://localhost:3000) in your browser
 
-## Customization
+## 🎨 Customization
 
-To personalize this portfolio with your information:
+### Portfolio Content
 
-1. Edit the content in the `Editor.tsx` component to update your personal details, skills, projects, and experience.
-2. Update social links in the `StatusBar.tsx` component.
-3. Modify terminal commands in the `Terminal.tsx` component.
-4. Add your own projects and experience in the respective sections.
+Edit `src/config/portfolio.ts` to update your:
+- Personal information
+- Skills (with optional links)
+- Projects
+- Work experience
+- Social links
 
-## Deployment
+### Styling and Settings
+
+- **Themes**: Choose from multiple themes in the settings panel
+- **Font Size**: Adjust text size for better readability
+- **Sidebar Width**: Resize the sidebar by dragging the edge
+
+## 📦 Deployment
 
 This project can be easily deployed to Vercel, Netlify, or any other hosting platform that supports Next.js.
 
@@ -69,6 +104,16 @@ npm run build
 yarn build
 ```
 
-## License
+## 🤝 Contributing
 
-MIT 
+Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](https://github.com/yourusername/vscode-portfolio/issues).
+
+## 📝 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 👨‍💻 Author
+
+Your Name
+- GitHub: [@YourGitHub](https://github.com/yourusername)
+- LinkedIn: [Your LinkedIn](https://linkedin.com/in/your-profile)

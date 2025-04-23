@@ -356,4 +356,79 @@ code {
 /* Fix for terminal and editor content */
 .overflow-auto {
   overflow: auto !important;
+}
+
+/* Add styles for sidebar resizing */
+.sidebar-resizing {
+  cursor: ew-resize !important;
+  user-select: none;
+}
+
+/* Improve code line styling */
+.code-line {
+  white-space: pre-wrap;
+  line-height: 1.6;
+}
+
+/* Add animated link styles */
+a.skill-link {
+  position: relative;
+  color: #4dabf7;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a.skill-link:hover {
+  color: #74c0fc;
+}
+
+a.skill-link::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 1px;
+  bottom: -2px;
+  left: 0;
+  background-color: #74c0fc;
+  transform: scaleX(0);
+  transform-origin: bottom right;
+  transition: transform 0.3s ease;
+}
+
+a.skill-link:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+/* Add animation for page loading */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Improved scrollbar styling */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1e1e1e;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #3e3e3e;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 } 

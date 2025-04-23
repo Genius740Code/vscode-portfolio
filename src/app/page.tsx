@@ -66,7 +66,7 @@ export default function Home() {
       
       // Open about.tsx by default
       handleFileClick('about.tsx');
-    }, 1000);
+    }, 300);
     
     // Get saved theme from localStorage or use default
     const savedTheme = localStorage.getItem('theme') || 'dark';
